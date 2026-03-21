@@ -1,12 +1,24 @@
-Robotic Arm with 5 Degrees of Freedom: Gripper, Pivot, Wrist, Elbow, Shoulder, Base.<br />
-- Designed and implemented a 5-degree-of-freedom Robotic Arm using ESP8266 microcontroller and 
-MQTT protocol (Mosquitto Broker) for wireless communication.<br /> 
-- Developed a responsive HTML interface with six sliders to control each joint and gripper in real-time.<br /><br />
+# 5-DOF Robotic Arm
 
-Hardware Interface:<br />NodeMCU ESP8266, MG995 Servo(x3), SG90 Servo(x3).<br />
-MG995 Servos(Elbow,Shoulder,Base) and SG90 Servos(Gripper,Pivot,Wrist) are 12V and 5V Rated Respectively.<br />
-Follow the Servo Pin Configuration in the File "esp8266.ino" during the Robotic Arm Assembly.<br /><br />
-Software Interface:<br />
-Upload the File "esp8266.ino" in the ESP8266 using Arduino IDE.<br />
-Run the File "web.html" using VSCode and control the Robotic Arm through the Webpage.
+A 5-degree-of-freedom Robotic Arm built with an ESP8266 microcontroller, controlled wirelessly via a web interface using the MQTT protocol.
 
+![Prototype](docs/Prototype.jpg)
+
+## Features
+- **5 Degrees of Freedom**: Controls for the Base, Shoulder, Elbow, Wrist, Pivot, and a Gripper.
+- **Wireless Communication**: Uses the MQTT protocol (Mosquitto Broker) for reliable, real-time control.
+- **Web Interface**: A responsive HTML dashboard (`src/web.html`) featuring six sliders to independently control each joint and the gripper in real-time.
+
+## Hardware Components
+- **Microcontroller**: NodeMCU ESP8266
+- **Heavy Duty Servos (12V)**: 3x MG995 Servos (used for Elbow, Shoulder, Base)
+- **Standard Servos (5V)**: 3x SG90 Servos (used for Gripper, Pivot, Wrist)
+
+### Assembly Instructions
+Please follow the servo pin configuration defined in `src/esp8266.ino` during the robotic arm assembly.
+
+## Getting Started
+
+### Software Interface
+1. **ESP8266 Setup**: Open `src/esp8266.ino` in the Arduino IDE, configure your MQTT/WiFi settings if needed, and upload it to the ESP8266.
+2. **Web Control**: Launch `src/web.html` in your browser (e.g., via VSCode Live Server) to control the robotic arm through the webpage sliders.
