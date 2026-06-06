@@ -11,92 +11,125 @@
     body {
       font-family: 'Inter', sans-serif;
     }
+
     input[type="range"] {
       -webkit-appearance: none;
       width: 100%;
-      height: 8px;
-      background: linear-gradient(to right, #4f46e5, #3b82f6);
-      border-radius: 5px;
+      height: 3px;
+      background: #1e1e2e;
+      border-radius: 3px;
       outline: none;
     }
+
     input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 24px;
-      height: 24px;
+      width: 16px;
+      height: 16px;
       border-radius: 50%;
-      background: #3b82f6;
-      border: 2px solid #fff;
+      background: var(--accent);
       cursor: pointer;
-      transition: transform 0.2s ease;
+      box-shadow: 0 0 10px var(--accent-glow);
+      transition: transform 0.15s ease;
     }
-    input[type="range"]::-webkit-slider-thumb:hover {
+
+    input[type="range"]:hover::-webkit-slider-thumb {
       transform: scale(1.2);
+    }
+
+    .servo-card {
+      border: 1px solid #1a1a28;
+      border-radius: 10px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .servo-card:hover {
+      background: #12121f;
+      border-color: #252538;
+    }
+
+    .servo-card.active {
+      border-color: var(--accent);
     }
   </style>
 </head>
-<body class="bg-gradient-to-br from-gray-800 to-black text-white">
-  <header class="py-10 text-center">
-    <h1 class="text-5xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-500">
-      RoboControl Hub
-    </h1>
-    <p class="text-lg text-gray-300">Control your robotic arm with precision</p>
+<body class="bg-[#0c0c0f] text-[#e2e2e8] min-h-screen">
+
+  <header class="py-8 px-6 flex items-center justify-between">
+    <span class="text-xs font-semibold tracking-widest text-[#3a3a4a] uppercase">Fist.bump</span>
+    <span class="flex items-center gap-2 text-[11px] text-[#3a3a4a] bg-[#13131a] border border-[#1e1e2a] rounded-full px-3 py-1">
+      <span id="mqttDot" class="w-1.5 h-1.5 rounded-full bg-[#2a2a3a] transition-all duration-500"></span>
+      <span id="mqttStatus">Connecting</span>
+    </span>
   </header>
 
-  <main class="container mx-auto px-4">
-    <div id="controls" class="bg-gray-900 border border-gray-700 rounded-lg shadow-2xl p-6 transform hover:-translate-y-1 transition-all duration-300">
-      <h2 class="text-2xl font-semibold mb-6 flex items-center">
-        <svg class="w-6 h-6 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2"></path>
-        </svg>
-        Servo Controls
-      </h2>
-      <div class="space-y-6">
+  <main class="container mx-auto px-6 max-w-2xl">
+    <p class="text-xl font-medium text-[#e2e2e8] mb-1">Robotic arm</p>
+    <p class="text-xs text-[#3a3a4a] tracking-wide mb-8">5 DOF · MQTT · test.mosquitto.org</p>
+
+    <div id="controls" class="flex flex-col gap-0.5">
+
+      <div class="servo-card bg-[#10101a] p-4 grid items-center gap-4" style="grid-template-columns: 140px 1fr 52px; --accent: #a78bfa; --accent-glow: #a78bfa44;" id="card-servo1">
         <div>
-          <div class="flex justify-between mb-1">
-            <label for="servo1" class="text-gray-300">End Effector</label>
-            <span id="servo1-value" class="text-blue-400">90</span>
-          </div>
-          <input type="range" min="0" max="180" value="90" class="w-full" id="servo1">
+          <p class="text-[13px] font-medium text-[#c8c8d8]">End effector</p>
+          <p class="text-[10px] font-semibold tracking-widest uppercase text-[#a78bfa] opacity-70">DOF 1</p>
         </div>
-        <div>
-          <div class="flex justify-between mb-1">
-            <label for="servo2" class="text-gray-300">Wrist</label>
-            <span id="servo2-value" class="text-blue-400">90</span>
-          </div>
-          <input type="range" min="0" max="180" value="90" class="w-full" id="servo2">
+        <input type="range" min="0" max="180" value="90" id="servo1">
+        <div class="text-right">
+          <span class="text-[22px] font-medium tabular-nums" style="color: #a78bfa;" id="servo1-value">90</span><span class="text-[11px] text-[#2e2e40]">°</span>
         </div>
-        <div>
-          <div class="flex justify-between mb-1">
-            <label for="servo3" class="text-gray-300">Claw</label>
-            <span id="servo3-value" class="text-blue-400">90</span>
-          </div>
-          <input type="range" min="0" max="180" value="90" class="w-full" id="servo3">
-        </div>
-        <div>
-          <div class="flex justify-between mb-1">
-            <label for="servo4" class="text-gray-300">Servo 4</label>
-            <span id="servo4-value" class="text-blue-400">90</span>
-          </div>
-          <input type="range" min="0" max="180" value="90" class="w-full" id="servo4">
-        </div>
-        <div>
-          <div class="flex justify-between mb-1">
-            <label for="servo5" class="text-gray-300">Servo 5</label>
-            <span id="servo5-value" class="text-blue-400">90</span>
-          </div>
-          <input type="range" min="0" max="180" value="90" class="w-full" id="servo5">
-        </div>
-        <div>
-          <div class="flex justify-between mb-1">
-            <label for="servo6" class="text-gray-300">Servo 6</label>
-            <span id="servo6-value" class="text-blue-400">90</span>
-          </div>
-          <input type="range" min="0" max="180" value="90" class="w-full" id="servo6">
-        </div>
-        <button id="resetButton" class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200">
-          Reset to Default
-        </button>
       </div>
+
+      <div class="servo-card bg-[#10101a] p-4 grid items-center gap-4" style="grid-template-columns: 140px 1fr 52px; --accent: #60a5fa; --accent-glow: #60a5fa44;" id="card-servo2">
+        <div>
+          <p class="text-[13px] font-medium text-[#c8c8d8]">Wrist</p>
+          <p class="text-[10px] font-semibold tracking-widest uppercase text-[#60a5fa] opacity-70">DOF 2</p>
+        </div>
+        <input type="range" min="0" max="180" value="90" id="servo2">
+        <div class="text-right">
+          <span class="text-[22px] font-medium tabular-nums" style="color: #60a5fa;" id="servo2-value">90</span><span class="text-[11px] text-[#2e2e40]">°</span>
+        </div>
+      </div>
+
+      <div class="servo-card bg-[#10101a] p-4 grid items-center gap-4" style="grid-template-columns: 140px 1fr 52px; --accent: #34d399; --accent-glow: #34d39944;" id="card-servo3">
+        <div>
+          <p class="text-[13px] font-medium text-[#c8c8d8]">Elbow</p>
+          <p class="text-[10px] font-semibold tracking-widest uppercase text-[#34d399] opacity-70">DOF 3</p>
+        </div>
+        <input type="range" min="0" max="180" value="90" id="servo3">
+        <div class="text-right">
+          <span class="text-[22px] font-medium tabular-nums" style="color: #34d399;" id="servo3-value">90</span><span class="text-[11px] text-[#2e2e40]">°</span>
+        </div>
+      </div>
+
+      <div class="servo-card bg-[#10101a] p-4 grid items-center gap-4" style="grid-template-columns: 140px 1fr 52px; --accent: #fb923c; --accent-glow: #fb923c44;" id="card-servo4">
+        <div>
+          <p class="text-[13px] font-medium text-[#c8c8d8]">Shoulder</p>
+          <p class="text-[10px] font-semibold tracking-widest uppercase text-[#fb923c] opacity-70">DOF 4</p>
+        </div>
+        <input type="range" min="0" max="180" value="90" id="servo4">
+        <div class="text-right">
+          <span class="text-[22px] font-medium tabular-nums" style="color: #fb923c;" id="servo4-value">90</span><span class="text-[11px] text-[#2e2e40]">°</span>
+        </div>
+      </div>
+
+      <div class="servo-card bg-[#10101a] p-4 grid items-center gap-4" style="grid-template-columns: 140px 1fr 52px; --accent: #f472b6; --accent-glow: #f472b644;" id="card-servo5">
+        <div>
+          <p class="text-[13px] font-medium text-[#c8c8d8]">Base</p>
+          <p class="text-[10px] font-semibold tracking-widest uppercase text-[#f472b6] opacity-70">DOF 5</p>
+        </div>
+        <input type="range" min="0" max="180" value="90" id="servo5">
+        <div class="text-right">
+          <span class="text-[22px] font-medium tabular-nums" style="color: #f472b6;" id="servo5-value">90</span><span class="text-[11px] text-[#2e2e40]">°</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="flex items-center justify-between mt-6 pt-5 border-t border-[#13131e]">
+      <span class="text-[11px] text-[#2e2e42]" id="lastPub">No activity yet</span>
+      <button id="resetButton" class="text-xs font-medium text-[#44445a] bg-transparent border border-[#1e1e2c] rounded-lg px-4 py-2 hover:border-[#33334a] hover:text-[#9999bb] hover:bg-[#13131e] transition-all duration-200">
+        ↺ Reset all
+      </button>
     </div>
   </main>
 
@@ -109,15 +142,44 @@
 
     mqttClient.on('connect', () => {
       console.log('Connected to MQTT Broker');
+      const dot = document.getElementById('mqttDot');
+      dot.style.background = '#22c55e';
+      dot.style.boxShadow = '0 0 8px #22c55e55';
+      document.getElementById('mqttStatus').textContent = 'Connected';
     });
 
-    const servos = ['servo1', 'servo2', 'servo3', 'servo4', 'servo5', 'servo6'];
+    mqttClient.on('offline', () => {
+      document.getElementById('mqttDot').style.background = '#2a2a3a';
+      document.getElementById('mqttStatus').textContent = 'Offline';
+    });
+
+    function fmtTime() {
+      return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    }
+
+    const servoMeta = {
+      servo1: { label: 'End effector' },
+      servo2: { label: 'Wrist' },
+      servo3: { label: 'Elbow' },
+      servo4: { label: 'Shoulder' },
+      servo5: { label: 'Base' },
+    };
+
+    const activeTimeouts = {};
+
+    const servos = ['servo1', 'servo2', 'servo3', 'servo4', 'servo5'];
     servos.forEach(servo => {
       const slider = document.getElementById(servo);
       slider.addEventListener('input', (event) => {
         const value = event.target.value;
         document.getElementById(`${servo}-value`).innerText = value;
         mqttClient.publish(`robotic_arm/${servo}`, value);
+        document.getElementById('lastPub').textContent = `${servoMeta[servo].label} → ${value}°  ·  ${fmtTime()}`;
+
+        const card = document.getElementById(`card-${servo}`);
+        card.classList.add('active');
+        clearTimeout(activeTimeouts[servo]);
+        activeTimeouts[servo] = setTimeout(() => card.classList.remove('active'), 800);
       });
     });
 
@@ -128,6 +190,7 @@
         document.getElementById(`${servo}-value`).innerText = 90;
         mqttClient.publish(`robotic_arm/${servo}`, '90');
       });
+      document.getElementById('lastPub').textContent = `All reset · ${fmtTime()}`;
     });
   </script>
 </body>
