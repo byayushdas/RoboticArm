@@ -2,7 +2,10 @@
 
 A 5-degree-of-freedom Robotic Arm built with an ESP8266 microcontroller, controlled wirelessly via a web interface using the MQTT protocol.
 
-![Prototype](docs/Prototype.jpg)
+<p align="center">
+  <img src="assets/Prototype.jpg" width="49%" />
+  <img src="assets/Robotic arm1.PNG" width="49%" />
+</p>
 
 ## Features
 - **5 Degrees of Freedom**: Controls for the Base, Shoulder, Elbow, Wrist, Pivot, and a Gripper.
